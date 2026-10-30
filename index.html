@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#174a91">
+<title>В единстве наша сила! — викторина</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#17243a;background:#f3f6fb}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(145deg,#eaf2ff,#fff 48%,#fff0f0)}
+header{height:10px;background:linear-gradient(to bottom,#fff 0 33%,#2456a6 33% 66%,#d52b35 66%)}
+main{width:min(760px,100% - 28px);margin:32px auto 56px}
+.hero{text-align:center;padding:26px 18px 20px}.flag{font-size:42px}.eyebrow{color:#2456a6;font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(2rem,7vw,3.2rem);line-height:1.08;margin:10px 0;color:#153c78}
+.subtitle{color:#53627a;line-height:1.55;max-width:560px;margin:auto}
+.panel{background:#fff;border:1px solid #e1e7f0;border-radius:24px;padding:clamp(18px,4vw,30px);box-shadow:0 18px 55px #20385d12}
+.meta{display:flex;justify-content:space-between;gap:12px;color:#65738a;font-size:.9rem;font-weight:650}
+.track{height:9px;background:#e9eef6;border-radius:20px;overflow:hidden;margin:12px 0 25px}.fill{height:100%;width:0;background:linear-gradient(90deg,#2456a6,#d52b35);transition:width .2s}
+h2{font-size:clamp(1.25rem,4vw,1.65rem);line-height:1.3;margin:0 0 20px}
+.answers{display:grid;gap:11px}.answer{width:100%;text-align:left;border:2px solid #e3e9f2;border-radius:15px;padding:15px 16px;background:#fff;color:#23334e;font:inherit;font-weight:650;cursor:pointer;transition:.15s}
+.answer:hover{border-color:#9db6df;background:#f7faff}.answer.selected{border-color:#2456a6;background:#eef4ff;color:#153c78}
+.controls{display:flex;justify-content:space-between;gap:12px;margin-top:24px}.btn{border:0;border-radius:13px;padding:13px 19px;font:inherit;font-weight:750;cursor:pointer;background:#2456a6;color:#fff}.btn:disabled{opacity:.38;cursor:not-allowed}.btn.secondary{background:#edf1f7;color:#34445e}
+.note{margin-top:17px;padding:13px 15px;background:#f3f7fd;border-radius:13px;color:#52617a;line-height:1.5}
+.result{text-align:center}.score{font-size:3.4rem;font-weight:900;color:#2456a6;line-height:1.1;margin:12px}.review{text-align:left;margin-top:25px;display:grid;gap:10px}.review article{background:#f6f8fc;padding:13px;border-radius:12px}.ok{color:#14804a}.bad{color:#c3333b}.small{font-size:.9rem;color:#66758c}
+footer{text-align:center;color:#78859a;font-size:.85rem;padding:22px}
+@media(max-width:480px){main{margin-top:12px}.hero{padding-top:22px}.controls .btn{padding:12px 14px}.panel{border-radius:19px}}
+</style>
+</head>
+<body>
+<header></header>
+<main>
+<section class="hero"><div class="flag">🇷🇺</div><div class="eyebrow">4 ноября · День народного единства</div><h1>В единстве наша сила!</h1><p class="subtitle">Проверь свои знания об истории праздника. Выбирай ответы, набирай баллы и узнай свой результат!</p></section>
+<section class="panel" id="app" aria-live="polite"></section>
+<footer>«Народов много — Родина одна!» 🇷🇺</footer>
+</main>
+<script>
+const questions=[
+{q:"Когда отмечается День народного единства?",a:["4 ноября","12 июня","9 мая","1 мая"],c:0,e:"Праздник отмечается ежегодно 4 ноября."},
+{q:"В каком году произошло освобождение Москвы народным ополчением?",a:["1812","1612","1700","1917"],c:1,e:"Москва была освобождена в 1612 году."},
+{q:"Кто возглавил народное ополчение?",a:["Пётр I и Екатерина II","Кузьма Минин и Дмитрий Пожарский","Иван Грозный и Александр Невский","Ломоносов и Пушкин"],c:1,e:"Ополчение возглавили Кузьма Минин и князь Дмитрий Пожарский."},
+{q:"На какой площади установлен памятник Минину и Пожарскому?",a:["Дворцовой","Красной","Манежной","Театральной"],c:1,e:"Памятник находится на Красной площади в Москве."},
+{q:"Как называлось объединение людей для освобождения страны?",a:["Народное ополчение","Императорская армия","Купеческий союз","Казачий совет"],c:0,e:"Народное ополчение объединило людей ради освобождения страны."},
+{q:"Что символизирует праздник?",a:["Начало зимы","Военные победы в космосе","Единство и сплочённость народа","День рождения государства"],c:2,e:"Праздник напоминает о силе единства, взаимопомощи и согласия."},
+{q:"Кто такой Кузьма Минин?",a:["Организатор народного ополчения","Первый космонавт","Известный художник","Русский царь"],c:0,e:"Кузьма Минин организовал сбор средств и помог сформировать ополчение."},
+{q:"Какой город был освобождён в 1612 году?",a:["Казань","Новгород","Москва","Смоленск"],c:2,e:"Главным событием стало освобождение Москвы от польско-литовских интервентов."},
+{q:"Что означает слово «единство»?",a:["Разобщённость","Сплочённость и согласие","Соперничество","Одиночество"],c:1,e:"Единство означает способность людей объединяться и действовать сообща."},
+{q:"Какой девиз лучше всего подходит ко Дню народного единства?",a:["Каждый сам за себя","Вместе мы сила!","Побеждает сильнейший","Главное — быть первым"],c:1,e:"Общая сила народа — в единстве, дружбе и взаимопомощи."}
+];
+let current=0,answers=Array(questions.length).fill(null),finished=false;
+const app=document.getElementById('app');
+function render(){
+ if(finished){const score=questions.reduce((n,q,i)=>n+(answers[i]===q.c),0),phr=score>=9?"Великолепно! Ты настоящий знаток истории! 🏆":score>=7?"Отличный результат! ⭐":score>=5?"Хорошая работа! Продолжай узнавать историю! 👏":"Не расстраивайся — теперь ты знаешь больше! 💪";
+ app.innerHTML='<div class="result"><div style="font-size:42px">🏆</div><h2>Твой результат</h2><div class="score">'+score*10+' из 100</div><strong>'+phr+'</strong><p class="small">Правильных ответов: '+score+' из '+questions.length+'</p></div><div class="review"><h2>Разбор ответов</h2>'+questions.map((q,i)=>'<article><strong>'+(i+1)+'. '+q.q+'</strong><p class="'+(answers[i]===q.c?'ok':'bad')+'">'+(answers[i]===q.c?'✓ Верно':'✗ Неверно')+' — '+q.a[q.c]+'</p><div class="small">'+q.e+'</div></article>').join('')+'</div><div class="controls"><button class="btn" id="restart">Пройти заново</button></div>';
+ document.getElementById('restart').onclick=()=>{current=0;answers.fill(null);finished=false;render()};return;
+ }
+ const q=questions[current];
+ app.innerHTML='<div class="meta"><span>Вопрос '+(current+1)+' из '+questions.length+'</span><span>'+answers.filter(x=>x!==null).length+' отвечено</span></div><div class="track"><div class="fill" style="width:'+((current+1)/questions.length*100)+'%"></div></div><h2>'+q.q+'</h2><div class="answers">'+q.a.map((a,i)=>'<button class="answer '+(answers[current]===i?'selected':'')+'" data-i="'+i+'" aria-pressed="'+(answers[current]===i)+'">'+String.fromCharCode(65+i)+'. '+a+'</button>').join('')+'</div><div class="controls"><button class="btn secondary" id="prev" '+(current===0?'disabled':'')+'>Назад</button><button class="btn" id="next" '+(answers[current]===null?'disabled':'')+'>'+(current===questions.length-1?'Завершить':'Далее →')+'</button></div><div class="note">За каждый правильный ответ начисляется 10 баллов. Максимум — 100 баллов.</div>';
+ app.querySelectorAll('.answer').forEach(b=>b.onclick=()=>{answers[current]=Number(b.dataset.i);render()});
+ document.getElementById('prev').onclick=()=>{current--;render()};
+ document.getElementById('next').onclick=()=>{if(answers[current]===null)return;if(current===questions.length-1)finished=true;else current++;render()};
+}
+render();
+</script>
+</body></html>
